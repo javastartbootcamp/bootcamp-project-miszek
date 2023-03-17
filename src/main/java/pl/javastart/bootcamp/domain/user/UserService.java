@@ -103,7 +103,7 @@ public class UserService {
 
     public void changePassword(String email, String newPassword, String actualPassword) {
         User user = userRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new);
-        if(!passwordEncoder.matches(actualPassword, user.getPassword())) {
+        if (!passwordEncoder.matches(actualPassword, user.getPassword())) {
             throw new InvalidPasswordException();
         }
 
