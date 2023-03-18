@@ -14,12 +14,18 @@
         <tr>
             <th>Imię i nazwisko</th>
             <th>Email</th>
+            <th>admin?</th>
+            <th>dodaj/usuń admina</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="user: ${users}" class="clickable-row" th:data-href="'/admin/uzytkownicy/' + ${user.id}">
             <td th:text="${user.firstName} + ' ' + ${user.lastName}"></td>
             <td th:text="${user.email}"></td>
+            <td th:text="${user.roles.isEmpty()} ? 'nie' : 'tak'"></td>
+            <td>
+                <a th:href="@{/admin/dodajUsunAdmin(id=${user.id})}">dodaj/usun</a>
+            </td>
         </tr>
 
         </tbody>
