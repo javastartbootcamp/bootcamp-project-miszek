@@ -3,6 +3,7 @@ package pl.javastart.bootcamp.domain.user;
 import lombok.Getter;
 import lombok.Setter;
 import pl.javastart.bootcamp.domain.signup.Signup;
+import pl.javastart.bootcamp.domain.user.role.Role;
 import pl.javastart.bootcamp.domain.user.role.UserRole;
 
 import javax.persistence.*;
@@ -51,4 +52,10 @@ public class User {
     private String passwordResetKey;
 
     private String githubUsername;
+
+    public boolean isAdmin() {
+        return roles.stream()
+            .map(UserRole::getRole)
+            .anyMatch(role -> role.equals(Role.ROLE_ADMIN));
+    }
 }

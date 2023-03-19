@@ -26,12 +26,15 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
     private MailService mailService;
     private SignupService signupService;
+    private UserRoleRepository userRoleRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, MailService mailService, SignupService signupService) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, MailService mailService, SignupService signupService,
+                       UserRoleRepository userRoleRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.mailService = mailService;
         this.signupService = signupService;
+        this.userRoleRepository = userRoleRepository;
     }
 
     @Transactional
@@ -183,5 +186,22 @@ public class UserService {
     public void updateGithubUsername(String name, String githubUsername) {
         User user = findByEmailOrThrow(name);
         user.setGithubUsername(githubUsername);
+    }
+
+    public void addRemoveAdminRole(Long id) {
+        User user = userRepository.findById(id).orElseThrow();
+        if (user.isAdmin()) {
+            List<UserRole> userRoles = userRoleRepository.findAllByUser(user);
+            UserRole adminRole = userRoles.stream()
+                .filter(role -> role.getRole().equals(Role.ROLE_ADMIN))
+                .findAny()
+                .orElseThrow();
+            userRoleRepository.delete(adminRole);
+        } else {
+            UserRole userRole = new UserRole();
+            userRole.setRole(Role.ROLE_ADMIN);
+            userRole.setUser(user);
+            userRoleRepository.save(userRole);
+        }
     }
 }

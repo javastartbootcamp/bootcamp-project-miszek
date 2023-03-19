@@ -3,6 +3,7 @@ package pl.javastart.bootcamp.domain.user.role;
 import pl.javastart.bootcamp.domain.user.User;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class UserRole {
