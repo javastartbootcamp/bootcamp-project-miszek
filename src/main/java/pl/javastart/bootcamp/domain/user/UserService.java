@@ -189,13 +189,17 @@ public class UserService {
     }
 
     public void addRemoveAdminRole(Long id) {
-        UserRole userRole = new UserRole();
-        userRole.setRole(Role.ROLE_ADMIN);
         User user = userRepository.findById(id).orElseThrow();
-        if (user.getRoles().contains(userRole)) {
-            UserRole userRoleByUser = userRoleRepository.findAllByUser(user).orElseThrow();
-            userRoleRepository.delete(userRoleByUser);
+        if (user.isAdmin()) {
+            List<UserRole> userRoles = userRoleRepository.findAllByUser(user);
+            UserRole adminRole = userRoles.stream()
+                .filter(role -> role.getRole().equals(Role.ROLE_ADMIN))
+                .findAny()
+                .orElseThrow();
+            userRoleRepository.delete(adminRole);
         } else {
+            UserRole userRole = new UserRole();
+            userRole.setRole(Role.ROLE_ADMIN);
             userRole.setUser(user);
             userRoleRepository.save(userRole);
         }

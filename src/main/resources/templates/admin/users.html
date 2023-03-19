@@ -20,12 +20,14 @@
         </thead>
         <tbody>
         <tr th:each="user: ${users}" class="clickable-row" th:data-href="'/admin/uzytkownicy/' + ${user.id}">
-            <td th:text="${user.firstName} + ' ' + ${user.lastName}"></td>
+            <td th:text="|${user.firstName} ${user.lastName}|"></td>
             <td th:text="${user.email}"></td>
-            <td th:text="${user.roles.isEmpty()} ? 'nie' : 'tak'"></td>
-            <td>
-                <a th:href="@{/admin/dodajUsunAdmin(id=${user.id})}">dodaj/usun</a>
-            </td>
+            <td th:text="${user.isAdmin()} ? 'tak' : 'nie'"></td>
+            <form th:action="|/admin/dodajUsunAdmin|" method="post">
+                <td>
+                    <button class="btn btn-warning" th:value="${user.id}" th:name="id" type="submit" th:text="${user.isAdmin()} ? 'usuń' : 'dodaj'"></button>
+                </td>
+            </form>
         </tr>
 
         </tbody>

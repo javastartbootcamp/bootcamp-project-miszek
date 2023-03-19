@@ -41,21 +41,4 @@ public class UserRole {
     public void setRole(Role role) {
         this.role = role;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        UserRole userRole = (UserRole) o;
-        return role == userRole.role;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(role);
-    }
 }
