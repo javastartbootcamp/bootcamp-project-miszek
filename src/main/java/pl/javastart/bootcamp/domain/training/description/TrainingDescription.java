@@ -36,4 +36,8 @@ public class TrainingDescription {
 
     private String metaDescription;
 
+    public boolean isInUse() {
+        return !trainings.isEmpty();
+    }
+
 }

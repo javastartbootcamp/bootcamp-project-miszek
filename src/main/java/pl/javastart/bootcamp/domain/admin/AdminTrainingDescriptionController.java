@@ -57,5 +57,9 @@ public class AdminTrainingDescriptionController {
         return "redirect:/admin/opisy";
     }
 
-
+    @GetMapping("/{id}/usun")
+    public String deleteDescription(@PathVariable Long id) {
+        trainingDescriptionService.deleteById(id);
+        return "redirect:/admin/opisy";
+    }
 }

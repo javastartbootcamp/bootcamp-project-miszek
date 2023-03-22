@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface TrainingDescriptionRepository extends JpaRepository<TrainingDescription, Long> {
     Optional<TrainingDescription> findByUrl(String url);
+
+    void deleteById(Long id);
 }
